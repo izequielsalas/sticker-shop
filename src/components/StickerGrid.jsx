@@ -8,18 +8,47 @@ import { useInView } from "react-intersection-observer";
 export default function StickerGrid() {
   const [activesticker, setActivesticker] = useState(null);
 
+  const categories = ["All", "Text", "Animals", "Logos"];
+  const [filter, setFilter] = useState("All");
+
+  const filteredStickers = filter === "All"
+    ? stickers
+    : stickers.filter((s) => s.category === filter);
+
   return (
     <>
+      {/* Category Filter Buttons */}
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            className={`px-4 py-2 rounded-full border ${
+              filter === cat
+                ? "bg-black text-white"
+                : "bg-white text-black hover:bg-gray-100"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Sticker Grid */}
       <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {stickers.map((sticker, index) => (
+        {filteredStickers.map((sticker, index) => (
           <AnimatedGridItem key={sticker.id} index={index}>
             <div onClick={() => setActivesticker(sticker)}>
-              <StickerItem title={sticker.title} imageUrl={sticker.imageUrl} />
+              <StickerItem
+                title={sticker.title}
+                imageUrl={sticker.imageUrl}
+              />
             </div>
           </AnimatedGridItem>
         ))}
       </div>
 
+      {/* Modal */}
       <AnimatePresence>
         {activesticker && (
           <Modal
