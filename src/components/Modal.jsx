@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
-export default function Modal({ project, onClose }) {
+export default function Modal({ sticker, onClose }) {
   const stopPropagation = (e) => e.stopPropagation();
 
   return (
@@ -28,11 +28,11 @@ export default function Modal({ project, onClose }) {
           <X size={24} />
         </button>
         <img
-          src={project.imageUrl}
-          alt={project.title}
+          src={sticker.imageUrl}
+          alt={sticker.title}
           className="w-full h-64 object-cover rounded-lg mb-4"
         />
-        <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
+        <h2 className="text-2xl font-bold mb-2">{sticker.title}</h2>
         <p className="text-gray-700">
           This is where you can add more details about the Sticker — description,
           design, colors, etc.

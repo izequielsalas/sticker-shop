@@ -32,7 +32,7 @@ const stickers = [
   {
     id: 6,
     title: "Melted Smiley",
-    category: "Animals",
+    category: "Text",
     imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ErMDJ4jTs_c6jmoD5F_XLWRFaG6Wbhfa9Q&s",
   },
   {
