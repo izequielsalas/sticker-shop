@@ -1,82 +1,65 @@
-import { useState } from "react";
+import React, { useState, useCallback, useMemo, Suspense, lazy } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import StickerItem from "./StickerItem";
-import Modal from "./Modal";
 import stickers from "../data/stickers";
 import { useInView } from "react-intersection-observer";
 
+const Modal = lazy(() => import("./Modal"));
+
 export default function StickerGrid() {
   const [activesticker, setActivesticker] = useState(null);
+  const handleStickerClick = useCallback((id) => {
+    setActivesticker(id);
+  }, []);
 
   const categories = ["All", "Text", "Animals", "Logos"];
   const [filter, setFilter] = useState("All");
 
-  const filteredStickers = filter === "All"
-    ? stickers
-    : stickers.filter((s) => s.category === filter);
+  const filteredStickers = useMemo(() => filter
+    ? stickers.filter((s) =>
+        filter === "All" ? true : s.category === filter
+      )
+    : stickers,
+    [filter]
+  );
 
   return (
-    <>
-      {/* Category Filter Buttons */}
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {categories.map((cat) => (
+    <div className="p-6">
+      <div className="flex gap-4 mb-4">
+        {categories.map((category) => (
           <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-4 py-2 rounded-full border ${
-              filter === cat
-                ? "bg-black text-white"
-                : "bg-white text-black hover:bg-gray-100"
+            key={category}
+            className={`px-4 py-2 rounded ${
+              filter === category ? "bg-blue-600 text-white" : "bg-gray-200"
             }`}
+            onClick={() => setFilter(category)}
           >
-            {cat}
+            {category}
           </button>
         ))}
       </div>
 
-      {/* Sticker Grid */}
-      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
         {filteredStickers.map((sticker, index) => (
-          <AnimatedGridItem key={sticker.id} index={index}>
-            <div onClick={() => setActivesticker(sticker)}>
-              <StickerItem
-                title={sticker.title}
-                imageUrl={sticker.imageUrl}
-              />
-            </div>
-          </AnimatedGridItem>
+          <StickerItem
+            key={index}
+            title={sticker.title}
+            imageUrl={sticker.imageUrl}
+            onClick={() => handleStickerClick(index)}
+          />
         ))}
       </div>
 
-      {/* Modal */}
       <AnimatePresence>
-        {activesticker && (
-          <Modal
-            key="modal"
-            sticker={activesticker}
-            onClose={() => setActivesticker(null)}
-          />
+        {activesticker !== null && (
+          <Suspense fallback={<div>Loading modal...</div>}>
+            <Modal
+              sticker={filteredStickers[activesticker]}
+              onClose={() => setActivesticker(null)}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
-    </>
-  );
-}
-
-function AnimatedGridItem({ children, index }) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 100, scale: 0.8 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{
-        delay: index * 0.1,
-        duration: 0.6,
-        ease: "easeOut",
-      }}
-    >
-      {children}
-    </motion.div>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
+import React, { useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useRef } from "react";
 
-export default function StickerItem({ title, imageUrl }) {
+function StickerItem({ title, imageUrl, onClick }) {
   const cardRef = useRef(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
@@ -15,13 +15,12 @@ export default function StickerItem({ title, imageUrl }) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateMax = 15;
-    const deltaX = ((x - centerX) / centerX) * rotateMax;
-    const deltaY = ((y - centerY) / centerY) * rotateMax * -1;
+    const deltaX = x - centerX;
+    const deltaY = y - centerY;
 
-    rotateX.set(deltaY);
-    rotateY.set(deltaX);
-    scale.set(1.03);
+    rotateX.set((-deltaY / centerY) * 10);
+    rotateY.set((deltaX / centerX) * 10);
+    scale.set(1.05);
   };
 
   const handleMouseLeave = () => {
@@ -33,27 +32,23 @@ export default function StickerItem({ title, imageUrl }) {
   return (
     <motion.div
       ref={cardRef}
-      className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg cursor-pointer transform-gpu"
+      className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer"
       style={{
-        rotateX,
-        rotateY,
-        scale,
+        rotateX: rotateX,
+        rotateY: rotateY,
+        scale: scale,
         transformPerspective: 1000,
-        willChange: "transform",
-        pointerEvents: "auto",
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      onClick={onClick}
     >
-      <img
-        src={imageUrl}
-        alt={title}
-        className="w-full h-48 object-cover"
-      />
+      <img src={imageUrl} alt={title} className="w-full h-40 object-cover" />
       <div className="p-4">
-        <h2 className="text-lg font-semibold">{title}</h2>
+        <h3 className="text-lg font-semibold">{title}</h3>
       </div>
     </motion.div>
   );
 }
+
+export default React.memo(StickerItem);
