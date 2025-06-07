@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { useRef } from "react";
 
-function StickerItem({ title, imageUrl, onClick }) {
+export default function StickerItem({ title, imageUrl }) {
   const cardRef = useRef(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
@@ -15,12 +15,13 @@ function StickerItem({ title, imageUrl, onClick }) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const deltaX = x - centerX;
-    const deltaY = y - centerY;
+    const rotateMax = 15;
+    const deltaX = ((x - centerX) / centerX) * rotateMax;
+    const deltaY = ((y - centerY) / centerY) * rotateMax * -1;
 
-    rotateX.set((-deltaY / centerY) * 10);
-    rotateY.set((deltaX / centerX) * 10);
-    scale.set(1.05);
+    rotateX.set(deltaY);
+    rotateY.set(deltaX);
+    scale.set(1.03);
   };
 
   const handleMouseLeave = () => {
@@ -32,23 +33,27 @@ function StickerItem({ title, imageUrl, onClick }) {
   return (
     <motion.div
       ref={cardRef}
-      className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer"
+      className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg cursor-pointer transform-gpu"
       style={{
-        rotateX: rotateX,
-        rotateY: rotateY,
-        scale: scale,
+        rotateX,
+        rotateY,
+        scale,
         transformPerspective: 1000,
+        willChange: "transform",
+        pointerEvents: "auto",
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={onClick}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <img src={imageUrl} alt={title} className="w-full h-40 object-cover" />
+      <img
+        src={imageUrl}
+        alt={title}
+        className="w-full h-48 object-cover"
+      />
       <div className="p-4">
-        <h3 className="text-lg font-semibold">{title}</h3>
+        <h2 className="text-lg font-semibold">{title}</h2>
       </div>
     </motion.div>
   );
 }
-
-export default React.memo(StickerItem);
