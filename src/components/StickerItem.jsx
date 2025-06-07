@@ -33,7 +33,7 @@ export default function StickerItem({ title, imageUrl }) {
   return (
     <motion.div
       ref={cardRef}
-      className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg cursor-pointer transform-gpu"
+      className="rounded-xl overflow-hidden shadow-lg cursor-pointer transform-gpu"
       style={{
         rotateX,
         rotateY,
@@ -46,14 +46,17 @@ export default function StickerItem({ title, imageUrl }) {
       onMouseLeave={handleMouseLeave}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <img
-        src={imageUrl}
-        alt={title}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
-        <h2 className="text-lg font-semibold">{title}</h2>
-      </div>
-    </motion.div>
+    <img
+      src={imageUrl}
+      alt={title}
+      className="w-full object-cover"
+      style={{ maxHeight: "300px", height: "auto" }}
+    />
+    <div className="p-4 bg-white-800">
+      <h2 className="text-lg font-semibold text-purple">{title}</h2>
+    </div>
+  </motion.div>
+
   );
 }
+
