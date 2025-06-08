@@ -18,7 +18,8 @@ export default function StickerShopLanding() {
 
       {/* Hero Section */}
       <section className="text-center py-20 px-4 bg-purple-300">
-        <h2 className="text-4xl font-bold mb-4">Custom Stickers That Stick</h2>
+        <h2 className="text-base sm:text-2xl md:text-3xl
+ lg:text-4xl font-bold mb-4">Custom Stickers That Stick</h2>
         <p className="text-lg mb-6">Perfect for laptops, water bottles, and branding.</p>
         <button className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800">Shop Now</button>
       </section>
@@ -48,7 +49,7 @@ export default function StickerShopLanding() {
 
       {/* Footer */}
       <footer className="text-center py-6 text-sm text-gray-500">
-        <p>&copy; 2025 StickyVibes. All rights reserved.</p>
+        <p>&copy; 2025 IzequielSalas • © 2025 StickyVibes</p>
       </footer>
     </div>
   );
