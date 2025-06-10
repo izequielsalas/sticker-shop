@@ -1,9 +1,25 @@
 import React from 'react';
 import StickerGrid from './StickerGrid';
+import { useState } from "react";
+
+
+  
 
 export default function StickerShopLanding() {
+
+  const [cartItems, setCartItems] = useState([]);
+
+  function handleAddToCart(item) {
+    setCartItems((prev) => [...prev, item]);
+  }
+
+
+
+
   return (
     <div className="min-h-screen bg-white text-gray-800">
+      
+      
       {/* Header */}
       <header className="flex justify-between items-center px-4 sm:px-8 py-4 sm:py-6 shadow-md">
         <h1 className="text-xl sm:text-2xl font-bold">StickyVibes</h1>
@@ -13,7 +29,14 @@ export default function StickerShopLanding() {
           <a href="#about" className="hover:underline">About</a>
           <a href="#contact" className="hover:underline">Contact</a>
         </nav>
+              <div className="text-right text-sm text-gray-600 px-4 sm:px-8 mb-2">
+        Cart: {cartItems.length} item{cartItems.length !== 1 && "s"}
+      </div>
       </header>
+
+
+      {/* Cart Summary */}
+
 
       {/* Hero Section */}
       <section className="text-center py-16 sm:py-20 px-4 sm:px-8 bg-purple-300">

@@ -10,6 +10,12 @@ export default function StickerGrid() {
 
   const categories = ["All", "Text", "Animals", "Logos"];
   const [filter, setFilter] = useState("All");
+  const [cartItems, setCartItems] = useState([]);
+
+  function handleAddToCart(item) {
+    setCartItems((prev) => [...prev, item]);
+  }
+
 
   const filteredStickers = filter === "All"
     ? stickers
@@ -47,6 +53,7 @@ export default function StickerGrid() {
                 <StickerItem
                   title={sticker.title}
                   imageUrl={sticker.imageUrl}
+                  price={sticker.price}
                 />
               </div>
             </AnimatedGridItem>

@@ -37,6 +37,10 @@ export default function Modal({ sticker, onClose }) {
             This is where you can add more details about the Sticker — description,
             design, colors, etc.
           </p>
+          <button className="mt-2 px-4 py-1 bg-white-500 text-purle text-sm rounded-full hover:bg-purple-800 hover:text-white">
+            Add to Cart
+          </button>
+
         </motion.div>
       </motion.div>
     );    

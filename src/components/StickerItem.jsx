@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-export default function StickerItem({ title, imageUrl }) {
+export default function StickerItem({ title, imageUrl, price }) {
   const cardRef = useRef(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
@@ -54,6 +54,9 @@ export default function StickerItem({ title, imageUrl }) {
     />
     <div className="p-4 bg-white-800">
       <h2 className="text-lg font-semibold text-purple">{title}</h2>
+      <p className="text-sm text-gray-500">${price.toFixed(2)}</p>
+
+      
     </div>
   </motion.div>
 
