@@ -30,7 +30,7 @@ export default function StickerShopLanding() {
           <a href="#contact" className="hover:underline">Contact</a>
         </nav>
               <div className="text-right text-sm text-gray-600 px-4 sm:px-8 mb-2">
-        Cart: {cartItems.length} item{cartItems.length !== 1 && "s"}
+        Cart: {cartItems.length}
       </div>
       </header>
 
