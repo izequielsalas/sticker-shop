@@ -33,8 +33,8 @@ export function useCart() {
 
 
 // src/components/Cart.jsx
-import React from 'react';
-import { useCart } from '../context/cartContext';
+
+
 
 export default function Cart() {
   const { cartItems, removeFromCart, clearCart, total } = useCart();

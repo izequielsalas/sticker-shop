@@ -1,13 +1,16 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { useCart } from "./CartProvider";
 
-export default function Modal({ sticker, onClose, onAddToCart }) {
+export default function Modal({ sticker, onClose }) {
+  const { addToCart } = useCart();
   const stopPropagation = (e) => e.stopPropagation();
 
   try {
     return (
       <motion.div
-        className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50"
+        className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4 overflow-y-auto"
         onClick={onClose}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -15,7 +18,7 @@ export default function Modal({ sticker, onClose, onAddToCart }) {
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
         <motion.div
-          className="relative bg-white rounded-lg shadow-lg p-6 w-full max-w-md"
+          className="relative bg-white rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto"
           onClick={stopPropagation}
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
@@ -42,10 +45,11 @@ export default function Modal({ sticker, onClose, onAddToCart }) {
               ${sticker.price.toFixed(2)}
             </p>
           )}
+
           {/* Add to Cart */}
           <button
             onClick={() => {
-              onAddToCart(sticker);
+              addToCart(sticker);
               onClose();
             }}
             className="mt-2 w-full px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800"

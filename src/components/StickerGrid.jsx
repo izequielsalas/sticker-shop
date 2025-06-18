@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import StickerItem from "./StickerItem";
 import Modal from "./Modal";
 import stickers from "../data/stickers";
+
 import { useInView } from "react-intersection-observer";
 
 export default function StickerGrid() {

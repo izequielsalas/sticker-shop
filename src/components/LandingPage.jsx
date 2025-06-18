@@ -1,42 +1,32 @@
 import React from 'react';
 import StickerGrid from './StickerGrid';
 import { useState } from "react";
-
-
-  
+import CheckoutPanel from './CheckoutPanel';
+import { CartProvider } from './CartProvider';
+import { useCart } from './CartProvider';
 
 export default function StickerShopLanding() {
-
-  const [cartItems, setCartItems] = useState([]);
-
-  function handleAddToCart(item) {
-    setCartItems((prev) => [...prev, item]);
-  }
-
-
-
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const { cartItems } = useCart();
 
   return (
-    <div className="min-h-screen bg-white text-gray-800">
-      
-      
+    <div className="min-h-screen bg-white text-gray-800 overflow-x-hidden">
       {/* Header */}
-      <header className="flex justify-between items-center px-4 sm:px-8 py-4 sm:py-6 shadow-md">
+      <header className="flex flex-wrap justify-between items-center px-4 sm:px-8 py-4 sm:py-6 shadow-md">
         <h1 className="text-xl sm:text-2xl font-bold">StickyVibes</h1>
-        <nav className="space-x-2 sm:space-x-4 text-sm sm:text-base">
+        <nav className="flex flex-wrap gap-2 sm:gap-4 text-sm sm:text-base">
           <a href="#home" className="hover:underline">Home</a>
           <a href="#shop" className="hover:underline">Shop</a>
           <a href="#about" className="hover:underline">About</a>
           <a href="#contact" className="hover:underline">Contact</a>
+          <button
+            onClick={() => setCheckoutOpen(true)}
+            className="text-sm sm:text-base text-gray-600 hover:underline px-2"
+          >
+            Cart ({cartItems.length})
+          </button>
         </nav>
-              <div className="text-right text-sm text-gray-600 px-4 sm:px-8 mb-2">
-        Cart: {cartItems.length}
-      </div>
       </header>
-
-
-      {/* Cart Summary */}
-
 
       {/* Hero Section */}
       <section className="text-center py-16 sm:py-20 px-4 sm:px-8 bg-purple-300">
@@ -50,6 +40,8 @@ export default function StickerShopLanding() {
           Shop Now
         </button>
       </section>
+
+      {/* View Checkout - moved into nav */}
 
       {/* Featured Stickers */}
       <section id="shop" className="py-12 sm:py-16 px-4 sm:px-6 bg-gray-50">
@@ -80,6 +72,10 @@ export default function StickerShopLanding() {
       <footer className="text-center py-6 text-xs sm:text-sm text-gray-500">
         <p>&copy; 2025 IzequielSalas • StickyVibes</p>
       </footer>
+
+      {/* Checkout Panel */}
+      {checkoutOpen && <CheckoutPanel onClose={() => setCheckoutOpen(false)} />}
     </div>
   );
 }
+
